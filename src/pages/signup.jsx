@@ -1,5 +1,81 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+
+function Signup() {
+  const [group, setGroup] = useState("");
+  const [gender, setGender] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const nameRef = useRef(null);
+  const idRef = useRef(null);
+  const pwRef = useRef(null);
+
+  const handleGroupChange = (e) => {
+    setGroup(e.target.value);
+  };
+
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+  };
+
+  const handleSignUp = () => {
+    console.log(nameRef.current.value);
+    console.log(idRef.current.value);
+    console.log(pwRef.current.value);
+    console.log(group);
+    console.log(gender);
+  };
+  return (
+    <AppContainer>
+      <Header>
+        <Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
+      </Header>
+      <TitleWrapper>
+        <Title>유레카팅 logo</Title>
+      </TitleWrapper>
+      <DividerWrapper>
+        <Divider />
+      </DividerWrapper>
+      <FormContainer>
+        <FormHead>회원가입</FormHead>
+        <Input ref={nameRef} type="text" placeholder="이름" required />
+        <Input ref={idRef} type="text" placeholder="아이디" required />
+        <Input ref={pwRef} type="password" placeholder="비밀번호" required />
+        <Select required onChange={handleGroupChange}>
+          <option value="" disabled selected>
+            소속
+          </option>
+          <option value="backend_off">백엔드_대면</option>
+          <option value="frontend_off">프론트_대면</option>
+          <option value="backend_on">백엔드_비대면</option>
+          <option value="frontend_on">프론트_비대면</option>
+        </Select>
+        <Select required onChange={handleGenderChange}>
+          <option value="" disabled selected>
+            성별
+          </option>
+          <option value="man">남성</option>
+          <option value="woman">여성</option>
+        </Select>
+        <SignupButton onClick={handleSignUp}>회원가입</SignupButton>
+        <LoginExplanation>
+          <LoginLink onClick={handleLogin}>로그인</LoginLink> 하러가기
+        </LoginExplanation>
+      </FormContainer>
+      <Footer>
+        <p>FOOTER</p>
+      </Footer>
+    </AppContainer>
+  );
+}
+
+export default Signup;
 
 const AppContainer = styled.div`
   width: 100%;
@@ -51,7 +127,7 @@ const Divider = styled.div`
   background: #ccc;
 `;
 
-const FormContainer = styled.form`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,7 +163,7 @@ const Select = styled.select`
   font-size: 16px;
 `;
 
-const SignupButton = styled.button`
+const SignupButton = styled.div`
   width: 355.714px;
   height: 60px;
   background: #a50034;
@@ -142,56 +218,3 @@ const Footer = styled.footer`
   justify-content: center;
   align-items: center;
 `;
-
-function Signup() {
-  const navigate = useNavigate();
-
-  const handleLogin = () => {
-    navigate("/login");
-  };
-
-  return (
-    <AppContainer>
-      <Header>
-        <Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
-      </Header>
-      <TitleWrapper>
-        <Title>유레카팅 logo</Title>
-      </TitleWrapper>
-      <DividerWrapper>
-        <Divider />
-      </DividerWrapper>
-      <FormContainer>
-        <FormHead>회원가입</FormHead>
-        <Input type="text" placeholder="이름" required />
-        <Input type="text" placeholder="아이디" required />
-        <Input type="password" placeholder="비밀번호" required />
-        <Select required>
-          <option value="" disabled selected>
-            소속
-          </option>
-          <option value="backend_off">백엔드_대면</option>
-          <option value="frontend_off">프론트_대면</option>
-          <option value="backend_on">백엔드_비대면</option>
-          <option value="frontend_on">프론트_비대면</option>
-        </Select>
-        <Select required>
-          <option value="" disabled selected>
-            성별
-          </option>
-          <option value="man">남성</option>
-          <option value="woman">여성</option>
-        </Select>
-        <SignupButton>회원가입</SignupButton>
-        <LoginExplanation>
-          <LoginLink onClick={handleLogin}>로그인</LoginLink> 하러가기
-        </LoginExplanation>
-      </FormContainer>
-      <Footer>
-        <p>FOOTER</p>
-      </Footer>
-    </AppContainer>
-  );
-}
-
-export default Signup;

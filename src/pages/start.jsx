@@ -14,14 +14,16 @@ const Header = styled.header`
 
 const TitleWrapper = styled.div`
   width: 100%;
-  height: 119px;
+  aspect-ratio: 655 / 119;
+  /* height: 119px; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const Logo = styled.img`
-  width: 126px;
-  height: 32px;
+  width: 7%;
+  aspect-ratio: 126 / 32;
+  /* height: 32px; */
   flex-shrink: 0;
   opacity: var(--sds-size-stroke-border);
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
@@ -29,12 +31,12 @@ const Logo = styled.img`
 
 const Title = styled.div`
   flex-shrink: 0;
-  margin-bottom: 74;
+  margin-bottom: 1vw;
   color: #737373;
   text-align: center;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: var(--sds-typography-title-page-font-family);
-  font-size: 96px;
+  font-size: 5vw;
   font-style: normal;
   font-weight: var(--sds-typography-title-page-font-weight);
   line-height: 120%; /* 115.2px */
@@ -45,8 +47,8 @@ const Title = styled.div`
 const DividerWrapper = styled.div`
   display: flex;
   justify-content: center; /* 가운데 정렬 */
-  width: 100%; /* 부모 요소의 너비를 100%로 설정 */
-  margin-top: 95px; /* 위쪽 여백 */
+  /* margin-top: 95px; 위쪽 여백 */
+  margin-top: 3vw;
 `;
 
 const Divider = styled.div`
@@ -59,11 +61,11 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  aspect-ratio: 1728 / 1117;
 `;
 
 const ImagePlaceholder = styled.div`
-  width: 444px;
-  height: 344px;
   flex-shrink: 0;
   background-color: #eee;
   display: flex;
@@ -73,11 +75,14 @@ const ImagePlaceholder = styled.div`
   margin-bottom: 56px;
   font-size: 18px;
   color: #555;
+  width: 26%;
+  aspect-ratio: 1728 / 1117;
+  object-fit: cover;
 `;
 
 const StartButton = styled.button`
-  width: 355.714px;
-  height: 60px;
+  width: 21%;
+  aspect-ratio: 356 / 60;
   flex-shrink: 0;
   border-radius: var(--sds-size-radius-100);
   background: #a50034;
@@ -100,8 +105,8 @@ const StartButton = styled.button`
 `;
 
 const LoginExplanation = styled.div`
-  width: 406px;
-  height: 34px;
+  /* width: 406px;
+  height: 34px; */
   flex-shrink: 0;
   color: var(--black-100, #000);
   text-align: center;
@@ -129,15 +134,15 @@ const LoginLink = styled.a`
   }
 `;
 
-const Footer = styled.footer`
-  width: 100%;
-  height: 204px;
-  flex-shrink: 0;
-  background: #555;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Footer = styled.footer`
+//   width: 100%;
+//   height: 204px;
+//   flex-shrink: 0;
+//   background: #555;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 function Start() {
   const navigate = useNavigate();
@@ -164,9 +169,9 @@ function Start() {
           이미 계정이 있나요? <LoginLink href="/login">로그인</LoginLink>
         </LoginExplanation>
       </Main>
-      <Footer>
+      {/* <Footer>
         <p>FOOTER</p>
-      </Footer>
+      </Footer> */}
     </AppContainer>
   );
 }
