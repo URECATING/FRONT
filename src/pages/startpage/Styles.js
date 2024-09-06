@@ -1,26 +1,25 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
-const AppContainer = styled.div`
+export const AppContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
 `;
 
-const Header = styled.header`
+export const Header = styled.header`
   padding: 20px;
 `;
 
-const TitleWrapper = styled.div`
+export const TitleWrapper = styled.div`
   width: 100%;
-  aspect-ratio: 655 / 119;
+  height: 119px;
   /* height: 119px; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const Logo = styled.img`
+export const Logo = styled.img`
   width: 7%;
   aspect-ratio: 126 / 32;
   /* height: 32px; */
@@ -29,7 +28,8 @@ const Logo = styled.img`
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
 `;
 
-const Title = styled.div`
+export const UtingLogo = styled.img`
+  width: 40%;
   flex-shrink: 0;
   margin-bottom: 1vw;
   color: #737373;
@@ -44,20 +44,20 @@ const Title = styled.div`
   white-space: nowrap;
 `;
 
-const DividerWrapper = styled.div`
+export const DividerWrapper = styled.div`
   display: flex;
   justify-content: center; /* 가운데 정렬 */
   /* margin-top: 95px; 위쪽 여백 */
   margin-top: 3vw;
 `;
 
-const Divider = styled.div`
+export const Divider = styled.div`
   width: 80%;
   height: 2px;
   background: #ccc;
 `;
 
-const Main = styled.main`
+export const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +65,7 @@ const Main = styled.main`
   aspect-ratio: 1728 / 1117;
 `;
 
-const ImagePlaceholder = styled.div`
+export const ImagePlaceholder = styled.div`
   flex-shrink: 0;
   background-color: #eee;
   display: flex;
@@ -80,7 +80,7 @@ const ImagePlaceholder = styled.div`
   object-fit: cover;
 `;
 
-const StartButton = styled.button`
+export const StartButton = styled.button`
   width: 21%;
   aspect-ratio: 356 / 60;
   flex-shrink: 0;
@@ -104,7 +104,7 @@ const StartButton = styled.button`
   }
 `;
 
-const LoginExplanation = styled.div`
+export const LoginExplanation = styled.div`
   /* width: 406px;
   height: 34px; */
   flex-shrink: 0;
@@ -119,7 +119,7 @@ const LoginExplanation = styled.div`
   margin-bottom: 56px;
 `;
 
-const LoginLink = styled.a`
+export const LoginLink = styled.a`
   color: var(--black-100, #a50034);
   font-family: Montserrat;
   font-size: 20px;
@@ -143,37 +143,3 @@ const LoginLink = styled.a`
 //   justify-content: center;
 //   align-items: center;
 // `;
-
-function Start() {
-  const navigate = useNavigate();
-
-  const handleStart = () => {
-    navigate("/signup");
-  };
-
-  return (
-    <AppContainer>
-      <Header>
-        <Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
-      </Header>
-      <TitleWrapper>
-        <Title>유레카팅 logo</Title>
-      </TitleWrapper>
-      <DividerWrapper>
-        <Divider />
-      </DividerWrapper>
-      <Main>
-        <ImagePlaceholder>유레카팅 서비스 소개 이미지</ImagePlaceholder>
-        <StartButton onClick={handleStart}>시작하기</StartButton>
-        <LoginExplanation>
-          이미 계정이 있나요? <LoginLink href="/login">로그인</LoginLink>
-        </LoginExplanation>
-      </Main>
-      {/* <Footer>
-        <p>FOOTER</p>
-      </Footer> */}
-    </AppContainer>
-  );
-}
-
-export default Start;

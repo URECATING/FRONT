@@ -1,7 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { instance } from "../apis/index";
+import { instance } from "../../apis/index";
 import { useEffect } from "react";
+import * as S from "./Styles";
+
 function MyPage() {
   const userId = useParams().userId;
   console.log(userId);
@@ -27,14 +29,27 @@ function MyPage() {
   };
 
   return (
-    <div>
-      sdf
-      <div>{myInfo.name}</div>
-      <div>{myInfo.group}</div>
-      <div>{myInfo.id}</div>
-      <div>{myInfo.pw}</div>
-      <img src={myInfo.profileImage} alt="profile" />
-    </div>
+    <S.AppContainer>
+      <S.Header>
+        <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
+      </S.Header>
+      <S.TitleWrapper>
+        <S.UtingLogo src="/src/assets/UtingLogo.png" alt="UTing Logo" />
+      </S.TitleWrapper>
+      <S.DividerWrapper>
+        <S.Divider />
+      </S.DividerWrapper>
+      
+    </S.AppContainer>
+
+    // <div>
+    //   sdf
+    //   <div>{myInfo.name}</div>
+    //   <div>{myInfo.group}</div>
+    //   <div>{myInfo.id}</div>
+    //   <div>{myInfo.pw}</div>
+    //   <img src={myInfo.profileImage} alt="profile" />
+    // </div>
   );
 }
 
