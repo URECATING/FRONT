@@ -273,22 +273,22 @@ export const ModalContainer = styled.div`
   width: 935px;
   height: 815px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
+  /* position: relative; */
 `;
 
 export const ModalBody = styled.div`
-  margin: 20px;
+  margin: 40px;
   /* background-color: #d9d9d9; */
   justify-content: center;
   align-items: center;
-  height: 90%;
+  /* height: 90%; */
   display: flex;
 `;
 
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 50px;
+  margin-right: 80px;
 `;
 
 export const FormTitle = styled.div`
@@ -339,26 +339,61 @@ export const ProfileImageWrapper = styled.div`
 `;
 
 export const DefaultPostImage = styled.img`
-  width: 100%;
-  height: 194px;
-  object-fit: cover;
-  opacity: 0.5;
-
-  /* 
-  width: 100px;
-  height: 100px;
+  width: 400px;
+  height: 300px;
   object-fit: cover;
   border: 1px solid #ccc;
-  position: absolute;
-  top: -50%;
-  z-index: 1;
-  border-radius: 50%;
-  margin-left: 19px; */
+  margin-top: 10px;
+`;
+
+export const ImageUploadWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+`;
+
+export const FolderIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+`;
+
+export const ImageUploadButton = styled.button`
+  background-color: #a50034;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
 `;
 
 export const ModalFooter = styled.div`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+export const FooterContainer = styled.div` 
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+`
+
+export const TextArea = styled.textarea`
+  width: 100%;
+  height: 20vh;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  resize: none;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 `;
 
 export const CloseButton = styled.button`
@@ -372,34 +407,6 @@ export const CloseButton = styled.button`
 
   &:hover {
     background-color: #d32f2f;
-  }
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-
-  &:focus {
-    border-color: #4caf50;
-    outline: none;
-  }
-`;
-
-export const Select = styled.select`
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-
-  &:focus {
-    border-color: #4caf50;
-    outline: none;
   }
 `;
 

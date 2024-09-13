@@ -256,6 +256,22 @@ const App = () => {
     setSelectedDate(date);
   };
 
+  /* 모달 이미지 관련 코드 */
+  const [defaultPostImage, setDefaultPostImage] = useState(
+    "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png"
+  );
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // setDefaultPostImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <S.AppContainer>
       <S.Header>
@@ -375,13 +391,27 @@ const App = () => {
                 />
               </S.InputWrapper>
               <S.ProfileImageWrapper>
-                <S.DefaultPostImage src="https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png"/>
+                <S.DefaultPostImage src={defaultPostImage} />
+                <S.ImageUploadWrapper>
+                  <S.FolderIcon
+                    src="/src/assets/folderIcon.png"
+                    alt="Folder Logo"
+                  />
+                  <S.ImageUploadButton type="file" accept="image/*" onChange={handleImageUpload} style="display: none">
+                    사진 추가하기
+                  </S.ImageUploadButton>
+                </S.ImageUploadWrapper>
               </S.ProfileImageWrapper>
             </S.ModalBody>
             <S.ModalFooter>
               <S.FormTitle>소개글</S.FormTitle>
-              <S.SubmitButton onClick={handleSubmit}>등록</S.SubmitButton>
-              <S.CloseButton onClick={handleModalClose}>닫기</S.CloseButton>
+              <S.FooterContainer>
+                <S.TextArea placeholder="소개글을 작성해주세요." />
+              </S.FooterContainer>
+              <S.ButtonContainer>
+                <S.SubmitButton onClick={handleSubmit}>등록</S.SubmitButton>
+                <S.CloseButton onClick={handleModalClose}>닫기</S.CloseButton>
+              </S.ButtonContainer>
             </S.ModalFooter>
           </S.ModalContainer>
         </S.ModalOverlay>

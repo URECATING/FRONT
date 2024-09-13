@@ -50,54 +50,8 @@ function MyPage() {
     }
   };
 
-  const [modalOpen, setModalOpen] = useState(false);
   return (
     <>
-      {modalOpen && (
-        <div
-          style={{
-            width: "100vw",
-            height: "100vh",
-            zIndex: "2",
-            backgroundColor: "pink",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            opacity: "0.5",
-          }}
-        >
-          <div
-            style={{
-              width: "300px",
-              height: "300px",
-              zIndex: "3",
-              backgroundColor: "white",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <h1>MyPage</h1>
-            <button onClick={() => setModalOpen(!modalOpen)}>닫기</button>
-          </div>
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              zIndex: "1",
-              opacity: "0.5",
-              position: "absolute",
-              top: "0",
-              left: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          ></div>
-        </div>
-      )}
       <S.AppContainer>
         <S.Header>
           <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
@@ -123,9 +77,6 @@ function MyPage() {
         </S.ProfileContainer>
         <S.EditButtonContainer>
           <S.EditButton onClick={handleUpdate}>내 정보 수정하기</S.EditButton>
-          <S.EditButton onClick={() => setModalOpen(!modalOpen)}>
-            모달 열기
-          </S.EditButton>
         </S.EditButtonContainer>
       </S.AppContainer>
     </>
