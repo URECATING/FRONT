@@ -18,7 +18,7 @@ function MyPage() {
 
   const getMyInfo = async () => {
     try {
-      const res = await instance.get(`/user/${userId}`);
+      const res = await instance.get(`http://52.78.9.240:8080/api/user/${userId}`);
       setMyInfo(res.data);
     } catch (e) {
       console.log(e);

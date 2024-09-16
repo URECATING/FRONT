@@ -136,12 +136,3 @@ export const LoginLink = styled.a`
     text-decoration: underline;
   }
 `;
-
-// export const Footer = styled.footer`
-//   width: 100%;
-//   height: 204px;
-//   background: #555;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
