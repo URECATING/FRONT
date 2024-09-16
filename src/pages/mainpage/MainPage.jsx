@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as S from "./Styles";
 import dayjs from "dayjs";
+import axios from "axios";
 
 const App = () => {
   /* 게시글 API 연동 코드 */
   const [posts, setPosts] = useState([]);
   const getPosts = async () => {
     try {
-      const res = await instance.get("/board");
+      const res = await axios.get("/board");
       setPosts(res.data.data);
     } catch (e) {
       console.log(e);
@@ -217,24 +218,40 @@ const App = () => {
     setNewPost({ title: "", creator: "", category: "", postImage: "" }); // 모달 닫을 때 초기화
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewPost({ ...newPost, [name]: value });
-  };
+  const handleSubmit = async () => {
+    console.log(titleRef.current.value);
+    console.log(dateRef.current.value);
+    console.log(positionRef.current.value);
+    console.log(contentRef.current.value);
+    console.log(category);
+    console.log(participationNumber);
+    console.log(defaultPostImage);
 
-  const handleSubmit = () => {
-    setPosts((prevPosts) => [
-      ...prevPosts,
-      {
-        ...newPost,
-        id: prevPosts.length + 1,
-        createdAt: selectedDate
-          ? selectedDate.toISOString()
-          : new Date().toISOString(),
-        participants: 0,
-        totalParticipants: 5,
-      },
-    ]);
+    try {
+      const res = await axios.post(
+        "http://52.78.9.240:8080/board/create",
+        {
+          username: "홍길동",
+          title: titleRef.current.value,
+          meetingDate: dateRef.current.value,
+          category: category,
+          maxCapacity: participationNumber,
+          place: positionRef.current.value,
+          content: contentRef.current.value,
+          image: defaultPostImage,
+        },
+        {
+          headers: {
+            Authorization:
+              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJybGFkYnN0biIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MjYyOTQ2OTZ9.MDWZwphc4y114OpiTCi4H56baqVg0QTCRMRT7mT2Aphvz4BG7LP1hsR9qwNwLNcym8bZOgEf5136cIF3txUGxw",
+          },
+        }
+      );
+      console.log(res);
+      getPosts();
+    } catch (e) {
+      console.log(e);
+    }
     handleModalClose();
   };
 
@@ -252,8 +269,8 @@ const App = () => {
   /* 모달 날짜 관련 코드 */
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
   };
 
   /* 모달 이미지 관련 코드 */
@@ -265,12 +282,20 @@ const App = () => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
-        // setDefaultPostImage(reader.result);
+      reader.onloadend = () => {
+        setDefaultPostImage(reader.result.toString());
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
+
+  /* 게시글 등록 API 연동 코드 */
+  const titleRef = useRef(null);
+  const dateRef = useRef(null);
+  const positionRef = useRef(null);
+  const contentRef = useRef(null);
+
+  const handleEnrollPost = async () => {};
 
   return (
     <S.AppContainer>
@@ -348,6 +373,7 @@ const App = () => {
               <S.InputWrapper>
                 <S.FormTitle>제목</S.FormTitle>
                 <S.TitleInput
+                  ref={titleRef}
                   type="text"
                   placeholder="제목을 작성해주세요."
                   required
@@ -380,14 +406,15 @@ const App = () => {
                   <option value="7">7명</option>
                 </S.ParticipationNumberSelect>
                 <S.FormTitle>위치</S.FormTitle>
-                <S.TitleInput type="text" placeholder="" />
+                <S.TitleInput ref={positionRef} type="text" placeholder="" />
                 <S.FormTitle>날짜 및 시간</S.FormTitle>
                 <S.DateInput
+                  ref={dateRef}
                   type="datetime-local"
                   id="meeting-time"
                   max="2077-06-20T21:00"
                   min="2077-06-05T12:30"
-                  value="2024-06-10T09:10"
+                  value={selectedDate}
                 />
               </S.InputWrapper>
               <S.ProfileImageWrapper>
@@ -397,7 +424,16 @@ const App = () => {
                     src="/src/assets/folderIcon.png"
                     alt="Folder Logo"
                   />
-                  <S.ImageUploadButton type="file" accept="image/*" onChange={handleImageUpload} style="display: none">
+                  <S.ImageUploadButton
+                    onClick={() => document.getElementById("fileInput").click()}
+                  >
+                    <input
+                      type="file"
+                      id="fileInput"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleImageUpload}
+                    />
                     사진 추가하기
                   </S.ImageUploadButton>
                 </S.ImageUploadWrapper>
@@ -406,12 +442,15 @@ const App = () => {
             <S.ModalFooter>
               <S.FormTitle>소개글</S.FormTitle>
               <S.FooterContainer>
-                <S.TextArea placeholder="소개글을 작성해주세요." />
+                <S.TextArea
+                  ref={contentRef}
+                  placeholder="소개글을 작성해주세요."
+                />
               </S.FooterContainer>
-              <S.ButtonContainer>
+              <S.FooterButtonContainer>
                 <S.SubmitButton onClick={handleSubmit}>등록</S.SubmitButton>
                 <S.CloseButton onClick={handleModalClose}>닫기</S.CloseButton>
-              </S.ButtonContainer>
+              </S.FooterButtonContainer>
             </S.ModalFooter>
           </S.ModalContainer>
         </S.ModalOverlay>

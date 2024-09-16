@@ -359,7 +359,7 @@ export const FolderIcon = styled.img`
   margin-right: 10px;
 `;
 
-export const ImageUploadButton = styled.button`
+export const ImageUploadButton = styled.input`
   background-color: #a50034;
   color: white;
   padding: 10px 20px;
@@ -374,11 +374,11 @@ export const ModalFooter = styled.div`
   justify-content: flex-start;
 `;
 
-export const FooterContainer = styled.div` 
+export const FooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-`
+`;
 
 export const TextArea = styled.textarea`
   width: 100%;
@@ -390,10 +390,10 @@ export const TextArea = styled.textarea`
   resize: none;
 `;
 
-export const ButtonContainer = styled.div`
+export const FooterButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   margin-top: 20px;
+  justify-content: center; /* 중앙 정렬 */
 `;
 
 export const CloseButton = styled.button`
