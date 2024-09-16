@@ -73,10 +73,9 @@ export const ProfileImageContainer = styled.div`
 export const ProfileImage = styled.img`
   border-radius: 50%;
   border-style: solid;
-  width: 300px;
+  width: 300;
   height: 300px;
   margin-bottom: 20px;
-  object-fit: cover;
   /* height: 100px; */
 `;
 

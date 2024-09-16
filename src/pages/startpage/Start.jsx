@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import * as S from "./Styles";
+import * as S from "./styles";
 
 function Start() {
   const navigate = useNavigate();

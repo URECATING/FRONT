@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { instance } from "../../apis/index";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import * as S from "./styles";
@@ -12,20 +11,22 @@ function MyPage() {
     navigate("/mainpage");
   };
 
-  const pwRef = useRef(null);
+  const userId = useParams().userId;
+
   const [myInfo, setMyInfo] = useState(null);
 
   const getMyInfo = async () => {
-    console.log(localStorage.getItem("token"));
-    console.log(myInfo);
     try {
-      const res = await axios.get(`http://52.78.9.240:8080/api/user/mypage`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        `http://52.78.9.240:8080/api/user/${userId}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       if (res.status === 200) {
-        setMyInfo(res.data.data);
+        setMyInfo(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -35,18 +36,6 @@ function MyPage() {
   useEffect(() => {
     getMyInfo();
   }, []);
-
-  const handleUpdate = async () => {
-    try {
-      const response = await instance.post("/api/users/update", myInfo);
-      if (response.status === 200) {
-        getMyInfo();
-      }
-      console.log("수정 완료:", response.data);
-    } catch (error) {
-      console.error("수정 실패:", error);
-    }
-  };
 
   return (
     <>
@@ -66,20 +55,17 @@ function MyPage() {
         </S.DividerWrapper>
         <S.ProfileContainer>
           <S.ProfileImageContainer>
-            <S.ProfileImage src={myInfo.image} />
-            <S.UploadButton>사진 업로드</S.UploadButton>
+            <S.ProfileImage src={myInfo.profileImage} alt="Profile" />
           </S.ProfileImageContainer>
           <S.UserInfo>
-            <S.UserName>{myInfo.userName}</S.UserName>
-            <S.UserGroup>{myInfo.team}</S.UserGroup>
-            <S.InputField type="text" value={myInfo.login} readOnly />
+            <S.UserName>{myInfo.name}</S.UserName>
+            <S.UserGroup>{myInfo.group}</S.UserGroup>
+            <S.InputField type="text" value={myInfo.id} readOnly />
             <br></br>
-            <S.InputField type="text" defaultValue={myInfo.pw} ref={pwRef} />
+            <S.InputField type="password" defaultValue={myInfo.pw} />
           </S.UserInfo>
         </S.ProfileContainer>
-        <S.EditButtonContainer>
-          <S.EditButton onClick={handleUpdate}>내 정보 수정하기</S.EditButton>
-        </S.EditButtonContainer>
+        s
       </S.AppContainer>
     </>
   );

@@ -1,15 +1,24 @@
-import React, { useEffect, useState, useRef } from "react";
-import * as S from "./Styles";
+import { React, useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import * as S from "./styles";
 import dayjs from "dayjs";
 import axios from "axios";
 
 const App = () => {
   /* 게시글 API 연동 코드 */
   const [posts, setPosts] = useState([]);
+
   const getPosts = async () => {
+    console.log(localStorage.getItem("token"));
     try {
-      const res = await axios.get("/board");
-      setPosts(res.data.data);
+      const res = await axios.get("http://52.78.9.240:8080/board", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      if (res.status === 200) {
+        setPosts(res.data.data);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -19,170 +28,11 @@ const App = () => {
     getPosts();
   }, []);
 
-  const postsTest = [
-    {
-      id: 1,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 2,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 3,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 4,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 5,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 6,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 7,
-      title: "유레카팅팅",
-      creator: "홍길동",
-      category: "식사",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 8,
-      title: "유레카팅팅팅",
-      creator: "홍길동",
-      category: "스터디",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 9,
-      title: "유레카팅팅팅팅",
-      creator: "홍길동",
-      category: "스터디",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 10,
-      title: "유레카팅팅팅팅팅",
-      creator: "홍길동",
-      category: "게임",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 11,
-      title: "유레카팅팅팅팅팅팅팅",
-      creator: "홍길동",
-      category: "운동",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-    {
-      id: 12,
-      title: "유레카팅",
-      creator: "홍길동",
-      category: "운동",
-      profileImage:
-        "https://cdn.pixabay.com/photo/2024/07/16/20/27/woman-8900030_1280.jpg",
-      createdAt: "2021-10-10T10:10:10",
-      participants: 2,
-      totalParticipants: 5,
-      postImage:
-        "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png",
-    },
-  ];
-
   /* 페이지 관련 코드 */
   const [currentIndex, setCurrentIndex] = useState(null);
   const postsPerSlide = 6;
 
-  const totalSlides = Math.ceil(postsTest.length / postsPerSlide);
+  const totalSlides = Math.ceil(posts.length / postsPerSlide);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
@@ -193,10 +43,10 @@ const App = () => {
   };
 
   /* 카테고리 관련 코드 */
-  const [activeCategory, setActiveCategory] = useState("식사");
+  const [activeCategory, setActiveCategory] = useState("점심");
   const categories = ["식사", "스터디", "게임", "운동", "번개"];
 
-  const currentPosts = postsTest
+  const currentPosts = posts
     .filter((post) => post.category === activeCategory)
     .slice(currentIndex * postsPerSlide, (currentIndex + 1) * postsPerSlide);
 
@@ -295,7 +145,17 @@ const App = () => {
   const positionRef = useRef(null);
   const contentRef = useRef(null);
 
-  const handleEnrollPost = async () => {};
+  /* 유저 정보 페이지 이동 코드 */
+
+  const navigate = useNavigate();
+
+  const navigateToLeaderMyPage = (leaderId) => {
+    navigate(`/otheruserpage/${leaderId}`);
+  };
+
+  const navigateToMyPage = () => {
+    navigate("/mypage");
+  };
 
   return (
     <S.AppContainer>
@@ -305,17 +165,24 @@ const App = () => {
       <S.TitleWrapper>
         <S.UtingLogo src="/src/assets/UtingLogo.png" alt="UTing Logo" />
       </S.TitleWrapper>
-      <S.CategoryContainer>
-        {categories.map((category) => (
-          <S.Categories
-            key={category}
-            isActive={activeCategory === category}
-            onClick={() => setActiveCategory(category)}
-          >
-            {category}
-          </S.Categories>
-        ))}
-      </S.CategoryContainer>
+      <S.MenuWrapper>
+        <S.CategoryContainer>
+          {categories.map((category) => (
+            <S.Categories
+              key={category}
+              isActive={activeCategory === category}
+              onClick={() => setActiveCategory(category)}
+            >
+              {category}
+            </S.Categories>
+          ))}
+        </S.CategoryContainer>
+        <S.MyPage
+          onClick={navigateToMyPage}
+        >
+          마이페이지
+        </S.MyPage>
+      </S.MenuWrapper>
       <S.DividerWrapper>
         <S.Divider />
       </S.DividerWrapper>
@@ -331,7 +198,9 @@ const App = () => {
             <S.ContentWrapper>
               <S.ProfileImage src={post.profileImage} alt={post.creator} />
               <S.Content>
-                <S.GroupLeaderInfo>
+                <S.GroupLeaderInfo
+                  onClick={() => navigateToLeaderMyPage(post.leaderId)}
+                >
                   <S.Creator> {post.creator} </S.Creator>{" "}
                   <S.CreatorGroup>백엔드 대면반</S.CreatorGroup>
                 </S.GroupLeaderInfo>

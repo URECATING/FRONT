@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import axios from "axios";
-import * as S from "./Styles";
+import * as S from "./styles";
 
 function Login() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function Login() {
       if (res.status === 200) {
         navigate("/mainpage");
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.data.id);
       }
     } catch (e) {
       throw new Error("API 호출에 실패했습니다.");

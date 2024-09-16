@@ -38,11 +38,26 @@ export const UtingLogo = styled.img`
   white-space: nowrap;
 `;
 
-export const CategoryContainer = styled.div`
+export const MenuWrapper = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 10px;
+  margin-top: 50px;
+`;
+
+export const CategoryContainer = styled.div`
   justify-content: flex-start;
   margin-left: 300px;
-  margin-top: 50px;
+`;
+
+export const MyPage = styled.div`
+  justify-content: flex-end;
+  font-size: 20px;
+  font-weight: 800;
+  margin-right: 300px;
+  cursor: pointer;
 `;
 
 export const Categories = styled.span`

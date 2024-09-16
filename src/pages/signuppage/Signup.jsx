@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import axios from "axios";
-import * as S from "./Styles";
+import * as S from "./styles";
 
 function Signup() {
   const [group, setGroup] = useState("");
