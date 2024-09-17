@@ -374,7 +374,7 @@ export const FolderIcon = styled.img`
   margin-right: 10px;
 `;
 
-export const ImageUploadButton = styled.input`
+export const ImageUploadButton = styled.div`
   background-color: #a50034;
   color: white;
   padding: 10px 20px;

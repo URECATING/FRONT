@@ -7,6 +7,8 @@ import axios from "axios";
 const App = () => {
   /* 게시글 API 연동 코드 */
   const [posts, setPosts] = useState([]);
+  const [participationNumber, setParticipationNumber] = useState(1);
+  const [category, setCategory] = useState("식사");
 
   const getPosts = async () => {
     console.log(localStorage.getItem("token"));
@@ -16,6 +18,7 @@ const App = () => {
           Authorization: localStorage.getItem("token"),
         },
       });
+      console.log(res.data);
       if (res.status === 200) {
         setPosts(res.data.data);
       }
@@ -43,7 +46,7 @@ const App = () => {
   };
 
   /* 카테고리 관련 코드 */
-  const [activeCategory, setActiveCategory] = useState("점심");
+  const [activeCategory, setActiveCategory] = useState("식사");
   const categories = ["식사", "스터디", "게임", "운동", "번개"];
 
   const currentPosts = posts
@@ -69,31 +72,25 @@ const App = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(titleRef.current.value);
-    console.log(dateRef.current.value);
-    console.log(positionRef.current.value);
-    console.log(contentRef.current.value);
-    console.log(category);
-    console.log(participationNumber);
-    console.log(defaultPostImage);
+    const formData = new FormData();
+
+    formData.append("title", titleRef.current.value);
+    formData.append("meetingDate", dateRef.current.value);
+    formData.append("category", category);
+    formData.append("maxCapacity", participationNumber.toString());
+    formData.append("place", positionRef.current.value);
+    formData.append("content", contentRef.current.value);
+
+    const imageFile = await fetch(postImage).then((res) => res.blob());
+    formData.append("image", imageFile, "postImage.png");
 
     try {
       const res = await axios.post(
-        "http://52.78.9.240:8080/board/create",
-        {
-          username: "홍길동",
-          title: titleRef.current.value,
-          meetingDate: dateRef.current.value,
-          category: category,
-          maxCapacity: participationNumber,
-          place: positionRef.current.value,
-          content: contentRef.current.value,
-          image: defaultPostImage,
-        },
+        "http://localhost:8080/board/create",
+        formData,
         {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJybGFkYnN0biIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MjYyOTQ2OTZ9.MDWZwphc4y114OpiTCi4H56baqVg0QTCRMRT7mT2Aphvz4BG7LP1hsR9qwNwLNcym8bZOgEf5136cIF3txUGxw",
+            Authorization: localStorage.getItem("token"),
           },
         }
       );
@@ -105,9 +102,6 @@ const App = () => {
     handleModalClose();
   };
 
-  const [participationNumber, setParticipationNumber] = useState(0);
-  const [category, setCategory] = useState("");
-
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
@@ -117,14 +111,14 @@ const App = () => {
   };
 
   /* 모달 날짜 관련 코드 */
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
   };
 
   /* 모달 이미지 관련 코드 */
-  const [defaultPostImage, setDefaultPostImage] = useState(
+  const [postImage, setPostImage] = useState(
     "https://cdn.pixabay.com/photo/2023/10/02/14/00/egg-8289259_1280.png"
   );
 
@@ -133,7 +127,7 @@ const App = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setDefaultPostImage(reader.result.toString());
+        setPostImage(reader.result.toString());
       };
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -146,7 +140,6 @@ const App = () => {
   const contentRef = useRef(null);
 
   /* 유저 정보 페이지 이동 코드 */
-
   const navigate = useNavigate();
 
   const navigateToLeaderMyPage = (leaderId) => {
@@ -177,11 +170,7 @@ const App = () => {
             </S.Categories>
           ))}
         </S.CategoryContainer>
-        <S.MyPage
-          onClick={navigateToMyPage}
-        >
-          마이페이지
-        </S.MyPage>
+        <S.MyPage onClick={navigateToMyPage}>마이페이지</S.MyPage>
       </S.MenuWrapper>
       <S.DividerWrapper>
         <S.Divider />
@@ -248,8 +237,12 @@ const App = () => {
                   required
                 />
                 <S.FormTitle>카테고리</S.FormTitle>
-                <S.CategorySelect required onChange={handleCategoryChange}>
-                  <option value="" disabled selected>
+                <S.CategorySelect
+                  required
+                  value={category}
+                  onChange={handleCategoryChange}
+                >
+                  <option value="" disabled>
                     카테고리
                   </option>
                   <option value="식사">식사</option>
@@ -261,9 +254,10 @@ const App = () => {
                 <S.FormTitle>인원수</S.FormTitle>
                 <S.ParticipationNumberSelect
                   required
+                  value={participationNumber}
                   onChange={handleParticipationNumberChange}
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled>
                     인원수
                   </option>
                   <option value="1">1명</option>
@@ -278,16 +272,17 @@ const App = () => {
                 <S.TitleInput ref={positionRef} type="text" placeholder="" />
                 <S.FormTitle>날짜 및 시간</S.FormTitle>
                 <S.DateInput
+                  onChange={handleDateChange}
                   ref={dateRef}
                   type="datetime-local"
                   id="meeting-time"
-                  max="2077-06-20T21:00"
-                  min="2077-06-05T12:30"
-                  value={selectedDate}
+                  max="2077-06-10T21:00"
+                  min="2024-06-10T12:30"
+                  value={selectedDate || ""}
                 />
               </S.InputWrapper>
               <S.ProfileImageWrapper>
-                <S.DefaultPostImage src={defaultPostImage} />
+                <S.DefaultPostImage src={postImage} />
                 <S.ImageUploadWrapper>
                   <S.FolderIcon
                     src="/src/assets/folderIcon.png"
@@ -296,15 +291,15 @@ const App = () => {
                   <S.ImageUploadButton
                     onClick={() => document.getElementById("fileInput").click()}
                   >
-                    <input
-                      type="file"
-                      id="fileInput"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={handleImageUpload}
-                    />
                     사진 추가하기
                   </S.ImageUploadButton>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleImageUpload}
+                  />
                 </S.ImageUploadWrapper>
               </S.ProfileImageWrapper>
             </S.ModalBody>
