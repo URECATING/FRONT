@@ -64,19 +64,21 @@ function MyPage() {
         <S.DividerWrapper>
           <S.Divider />
         </S.DividerWrapper>
-        <S.ProfileContainer>
-          <S.ProfileImageContainer>
-            <S.ProfileImage src={myInfo.image} />
-            <S.UploadButton>사진 업로드</S.UploadButton>
-          </S.ProfileImageContainer>
-          <S.UserInfo>
-            <S.UserName>{myInfo.userName}</S.UserName>
-            <S.UserGroup>{myInfo.team}</S.UserGroup>
-            <S.InputField type="text" value={myInfo.login} readOnly />
-            <br></br>
-            <S.InputField type="text" defaultValue={myInfo.pw} ref={pwRef} />
-          </S.UserInfo>
-        </S.ProfileContainer>
+        {myInfo && (
+          <S.ProfileContainer>
+            <S.ProfileImageContainer>
+              <S.ProfileImage src={myInfo.image} />
+              <S.UploadButton>사진 업로드</S.UploadButton>
+            </S.ProfileImageContainer>
+            <S.UserInfo>
+              <S.UserName>{myInfo.userName}</S.UserName>
+              <S.UserGroup>{myInfo.team}</S.UserGroup>
+              <S.InputField type="text" value={myInfo.login} readOnly />
+              <br></br>
+              <S.InputField type="text" defaultValue={myInfo.pw} ref={pwRef} />
+            </S.UserInfo>
+          </S.ProfileContainer>
+        )}
         <S.EditButtonContainer>
           <S.EditButton onClick={handleUpdate}>내 정보 수정하기</S.EditButton>
         </S.EditButtonContainer>
