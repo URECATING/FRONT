@@ -36,6 +36,7 @@ export const UtingLogo = styled.img`
   font-weight: 600;
   line-height: 120%;
   white-space: nowrap;
+  cursor: pointer;
 `;
 
 export const MenuWrapper = styled.div`
@@ -105,6 +106,7 @@ export const UserImage = styled.img`
   object-fit: cover;
   top: 202px;
   left: 22px;
+  cursor: pointer;
 `;
 
 export const HeartImage = styled.img`
@@ -113,6 +115,7 @@ export const HeartImage = styled.img`
   position: absolute;
   top: 210px;
   right: 20px;
+  cursor: pointer;
 `;
 
 export const PostTitleWrapper = styled.div`
@@ -223,7 +226,7 @@ export const KakaoMapContainer = styled.div`
 `;
 
 export const Button = styled.button`
-  background-color: #a50034;
+  /* background-color: #a50034; */
   color: white;
   padding: 10px 20px;
   border-radius: 20px;

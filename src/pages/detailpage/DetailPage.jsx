@@ -66,6 +66,8 @@ const App = () => {
 
     loadKakaoMapScript();
     getDetailInfo();
+    getLikeInfo();
+    getJoinInfo();
   }, []);
 
   /* 카테고리 관련 코드 */
@@ -78,14 +80,22 @@ const App = () => {
     navigate("/mypage");
   };
 
+  const handleMainPage = () => {
+    navigate("/mainpage");
+  };
+
+  const navigateToLeaderMyPage = (leaderId) => {
+    navigate(`/otheruserpage/${leaderId}`);
+  };
+
   const checkIsJoined = async (data) => {
-    if (data === 422) {
+    if (data.data === true) {
       setIsJoined(true);
     }
   };
 
   const checkIsLike = async (data) => {
-    if (data === true) {
+    if (data.data === true) {
       setIsLike(true);
     }
   };
@@ -104,6 +114,24 @@ const App = () => {
       );
       if (res.status === 200) {
         checkIsLike(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getJoinInfo = async () => {
+    try {
+      const res = await axios.get(
+        `http://52.78.9.240:8080/post-join/posts/${postId}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.status === 200) {
+        checkIsJoined(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -129,44 +157,81 @@ const App = () => {
   };
 
   const handleLike = async () => {
-    try {
-      const res = await axios.post(
-        `http://52.78.9.240:8080/post/${postId}/like`,
-        {},
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
+    if (isLike) {
+      try {
+        const res = await axios.delete(
+          `http://52.78.9.240:8080/post/${postId}/like`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (res.status === 200) {
+          getDetailInfo();
+          setIsLike(false);
         }
-      );
-      if (res.status === 200) {
-        getDetailInfo();
-        setIsLike(true);
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+    } else {
+      try {
+        const res = await axios.post(
+          `http://52.78.9.240:8080/post/${postId}/like`,
+          {},
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (res.status === 200) {
+          getDetailInfo();
+          setIsLike(true);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
   const handleJoin = async () => {
-    try {
-      const res = await axios.post(
-        "http://52.78.9.240:8080/post-join",
-        { postId: postId },
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
+    if (isJoined) {
+      try {
+        const res = await axios.delete(
+          `http://52.78.9.240:8080/post-join/${postId}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (res.status === 200) {
+          getDetailInfo();
+          setIsJoined(false);
         }
-      );
-      if (res.status === 200) {
-        getDetailInfo();
+      } catch (e) {
+        console.log(e);
       }
-      if (res.data.code === 422) {
-        setIsJoined(true);
+    } else {
+      try {
+        const res = await axios.post(
+          `http://52.78.9.240:8080/post-join`,
+          { postId: postId },
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        if (res.status === 200) {
+          console.log(res);
+          getDetailInfo();
+          setIsJoined(true);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -192,7 +257,11 @@ const App = () => {
         <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
       </S.Header>
       <S.TitleWrapper>
-        <S.UtingLogo src="/src/assets/UtingLogo.png" alt="UTing Logo" />
+        <S.UtingLogo
+          onClick={handleMainPage}
+          src="/src/assets/UtingLogo.png"
+          alt="UTing Logo"
+        />
       </S.TitleWrapper>
       <S.MenuWrapper>
         <S.CategoryContainer>
@@ -211,12 +280,23 @@ const App = () => {
         <S.DetailContainer>
           <S.PostImageContainer>
             <S.PostImage src={detailInfo.image} />
-            <S.UserImage src={detailInfo.userImage} />
-            <S.HeartImage
-              onClick={handleLike}
-              src="/src/assets/Heart.png"
-              alt="Heart"
+            <S.UserImage
+              onClick={() => navigateToLeaderMyPage(detailInfo.userId)}
+              src={detailInfo.userImage}
             />
+            {isLike ? (
+              <S.HeartImage
+                onClick={handleLike}
+                src="/src/assets/RedHeart.png"
+                alt="Heart"
+              />
+            ) : (
+              <S.HeartImage
+                onClick={handleLike}
+                src="/src/assets/Heart.png"
+                alt="Heart"
+              />
+            )}
           </S.PostImageContainer>
           <S.PostTitleWrapper>
             <S.Title>{detailInfo.title}</S.Title>
@@ -254,16 +334,26 @@ const App = () => {
               <S.InfoText>2/{detailInfo.maxCapacity}</S.InfoText>
             </S.InfoWrapper>
           </S.InfoSection>
-          <S.Button
-            onClick={handleJoin}
-            style={{
-              backgroundColor: isJoined ? "#C4C4C4" : "#a50034",
-              cursor: isJoined ? "not-allowed" : "pointer",
-            }}
-            disabled={isJoined}
-          >
-            유레카팅 하러가기
-          </S.Button>
+          {!isJoined ? (
+            <S.Button
+              onClick={handleJoin}
+              style={{
+                backgroundColor: "#a50034",
+              }}
+            >
+              유레카팅 하러가기
+            </S.Button>
+          ) : (
+            <S.Button
+              onClick={handleJoin}
+              style={{
+                backgroundColor: "#a4989c",
+              }}
+            >
+              유레카팅 참가취소
+            </S.Button>
+          )}
+          ;
           <S.DividerWrapper>
             <S.TitleDivider />
           </S.DividerWrapper>

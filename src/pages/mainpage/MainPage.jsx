@@ -8,6 +8,7 @@ const App = () => {
   /* 게시글 API 연동 코드 */
   const [posts, setPosts] = useState([]);
   const [participationNumber, setParticipationNumber] = useState(1);
+  const [participationCounts, setParticipationCounts] = useState({});
   const [category, setCategory] = useState("식사");
 
   const getPosts = async () => {
@@ -21,7 +22,35 @@ const App = () => {
       console.log(res.data);
       if (res.status === 200) {
         setPosts(res.data.data);
+        fetchParticipationCounts(res.data.data.map((post) => post.postId));
       }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchParticipationCounts = async (postIds) => {
+    try {
+      const counts = await Promise.all(
+        postIds.map(async (postId) => {
+          const res = await axios.get(
+            `http://52.78.9.240:8080/post-join/${postId}/join-count`,
+            {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            }
+          );
+          return { postId, count: res.data.data }; // { postId, count } 형태로 반환
+        })
+      );
+
+      // 참가 인원수 상태 업데이트
+      const countsMap = counts.reduce((acc, curr) => {
+        acc[curr.postId] = curr.count;
+        return acc;
+      }, {});
+      setParticipationCounts(countsMap);
     } catch (e) {
       console.log(e);
     }
@@ -218,7 +247,8 @@ const App = () => {
                       alt="participation Logo"
                     />
                     <S.ParticipationNumber>
-                      {post.participants}/{post.maxCapacity}명 참여
+                      {participationCounts[post.postId] || 0}/{post.maxCapacity}
+                      명 참여
                     </S.ParticipationNumber>
                   </S.ParticipationWrapper>
                 </S.GroupInfo>
