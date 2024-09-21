@@ -24,6 +24,7 @@ function MyPage() {
           Authorization: localStorage.getItem("token"),
         },
       });
+      console.log(res);
       if (res.status === 200) {
         setMyInfo(res.data.data);
       }

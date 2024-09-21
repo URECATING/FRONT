@@ -18,15 +18,16 @@ function MyPage() {
   const getMyInfo = async () => {
     try {
       const res = await axios.get(
-        `http://52.78.9.240:8080/api/user/${userId}`,
+        `http://52.78.9.240:8080/api/user/${userId}/mypage`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
         }
       );
+      console.log(res);
       if (res.status === 200) {
-        setMyInfo(res.data);
+        setMyInfo(res.data.data);
       }
     } catch (e) {
       console.log(e);
@@ -53,19 +54,21 @@ function MyPage() {
         <S.DividerWrapper>
           <S.Divider />
         </S.DividerWrapper>
-        <S.ProfileContainer>
-          <S.ProfileImageContainer>
-            <S.ProfileImage src={myInfo.profileImage} alt="Profile" />
-          </S.ProfileImageContainer>
-          <S.UserInfo>
-            <S.UserName>{myInfo.name}</S.UserName>
-            <S.UserGroup>{myInfo.group}</S.UserGroup>
-            <S.InputField type="text" value={myInfo.id} readOnly />
-            <br></br>
-            <S.InputField type="password" defaultValue={myInfo.pw} />
-          </S.UserInfo>
-        </S.ProfileContainer>
-        s
+        {myInfo && (
+          <S.ProfileContainer>
+            <S.ProfileImageContainer>
+              <S.ProfileImage src={myInfo.image} />
+              <S.UploadButton>사진 업로드</S.UploadButton>
+            </S.ProfileImageContainer>
+            <S.UserInfo>
+              <S.UserName>{myInfo.userName}</S.UserName>
+              <S.UserGroup>{myInfo.team}</S.UserGroup>
+              <S.InputField type="text" value={myInfo.login} readOnly />
+              <br></br>
+              <S.InputField type="text" defaultValue={myInfo.pw} readOnly />
+            </S.UserInfo>
+          </S.ProfileContainer>
+        )}
       </S.AppContainer>
     </>
   );

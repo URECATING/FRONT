@@ -86,10 +86,11 @@ const App = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/board/create",
+        "http://52.78.9.240:8080/board/create",
         formData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: localStorage.getItem("token"),
           },
         }
@@ -150,6 +151,10 @@ const App = () => {
     navigate("/mypage");
   };
 
+  const navigateToDetailPage = (postId) => {
+    navigate(`/detailpage/${postId}`);
+  };
+
   return (
     <S.AppContainer>
       <S.Header>
@@ -179,19 +184,23 @@ const App = () => {
       <S.PostContainer>
         {currentPosts.map((post) => (
           <S.Post key={post.id}>
-            <S.ImageWrapper>
+            <S.ImageWrapper onClick={() => navigateToDetailPage(post.postId)}>
               <S.Category>{post.category}</S.Category>
-              <S.Image src={post.postImage} alt={post.title} />
+              <S.Image src={post.image} alt={post.title} />
               <S.Title>{post.title}</S.Title>
             </S.ImageWrapper>
             <S.ContentWrapper>
-              <S.ProfileImage src={post.profileImage} alt={post.creator} />
               <S.Content>
-                <S.GroupLeaderInfo
-                  onClick={() => navigateToLeaderMyPage(post.leaderId)}
+                <S.ProfileImageContainer
+                  onClick={() => navigateToLeaderMyPage(post.userId)}
                 >
-                  <S.Creator> {post.creator} </S.Creator>{" "}
-                  <S.CreatorGroup>백엔드 대면반</S.CreatorGroup>
+                  <S.ProfileImage src={post.userImage} alt={post.creator} />
+                </S.ProfileImageContainer>
+                <S.GroupLeaderInfo
+                  onClick={() => navigateToLeaderMyPage(post.userId)}
+                >
+                  <S.Creator> {post.username} </S.Creator>{" "}
+                  <S.CreatorGroup>{post.team}</S.CreatorGroup>
                 </S.GroupLeaderInfo>
                 <S.GroupInfo>
                   <S.DateWrapper>
@@ -209,7 +218,7 @@ const App = () => {
                       alt="participation Logo"
                     />
                     <S.ParticipationNumber>
-                      {post.participants}/{post.totalParticipants}명 참여
+                      {post.participants}/{post.maxCapacity}명 참여
                     </S.ParticipationNumber>
                   </S.ParticipationWrapper>
                 </S.GroupInfo>

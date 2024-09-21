@@ -129,6 +129,7 @@ export const Category = styled.div`
   text-align: center;
   border-radius: 20px;
 `;
+
 export const ContentWrapper = styled.div`
   padding-top: 15px;
   height: 76px;
@@ -148,6 +149,7 @@ export const Title = styled.h2`
 `;
 
 export const GroupInfo = styled.div`
+  margin-left: 110px;
   color: #666;
   font-size: 1em;
   display: flex;
@@ -182,6 +184,11 @@ export const ParticipationIcon = styled.img`
   margin-right: 5px;
 `;
 
+export const ProfileImageContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const ProfileImage = styled.img`
   width: 100px;
   height: 100px;
@@ -197,6 +204,7 @@ export const ProfileImage = styled.img`
 export const GroupLeaderInfo = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 20px;
 `;
 
 export const Creator = styled.div`
@@ -213,9 +221,9 @@ export const CreatorGroup = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: row;
-  width: 350px;
-  justify-content: space-between;
+  width: 450px;
   margin-left: 131px;
+  margin-right: 30px;
 `;
 
 export const PlusButton = styled.button`

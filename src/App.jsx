@@ -4,9 +4,10 @@ import { Routes } from "react-router-dom";
 import Start from "./pages/startpage/Start";
 import Signup from "./pages/signuppage/Signup";
 import Login from "./pages/loginpage/Login";
-import OtherUserPage from "./pages/otheruserpage/OtherUserPage.jsx";
+import OtherUserPage from "./pages/otheruserpage/OtherUserPage";
 import MyPage from "./pages/mypage/MyPage";
 import MainPage from "./pages/mainpage/MainPage";
+import DetailPage from "./pages/detailpage/DetailPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/otheruserpage/:userId" element={<OtherUserPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mainpage" element={<MainPage />} />
+        <Route path="/detailpage/:detailId" element={<DetailPage />} />
       </Routes>
     </Router>
   );

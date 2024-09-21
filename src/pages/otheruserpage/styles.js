@@ -76,6 +76,7 @@ export const ProfileImage = styled.img`
   width: 300;
   height: 300px;
   margin-bottom: 20px;
+  object-fit: cover;
   /* height: 100px; */
 `;
 

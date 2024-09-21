@@ -64,15 +64,20 @@ function Signup() {
         <S.FormHead>회원가입</S.FormHead>
         <S.Input ref={nameRef} type="text" placeholder="이름" required />
         <S.Input ref={idRef} type="text" placeholder="아이디" required />
-        <S.Input ref={pwRef} type="password" placeholder="비밀번호는 8자 이상이어야 하며, 영문과 숫자를 포함" required />
+        <S.Input
+          ref={pwRef}
+          type="password"
+          placeholder="비밀번호는 8자 이상이어야 하며, 영문과 숫자를 포함"
+          required
+        />
         <S.Select required onChange={handleGroupChange}>
           <option value="" disabled selected>
             소속
           </option>
-          <option value="backend_off">백엔드_대면</option>
-          <option value="frontend_off">프론트_대면</option>
-          <option value="backend_on">백엔드_비대면</option>
-          <option value="frontend_on">프론트_비대면</option>
+          <option value="백엔드_대면">백엔드_대면</option>
+          <option value="프론트_대면">프론트_대면</option>
+          <option value="백엔드_비대면">백엔드_비대면</option>
+          <option value="프론트_비대면">프론트_비대면</option>
         </S.Select>
         <S.Select required onChange={handleGenderChange}>
           <option value="" disabled selected>
