@@ -166,10 +166,26 @@ function MyPage() {
   }, []);
 
   const handleUpdate = async () => {
+    console.log(myInfo);
     try {
+      const formData = new FormData();
+
+      // 문자열을 Blob으로 변환
+      const imageBlob = new Blob([myInfo.image], { type: "image/png" }); // 문자열이 이미지 데이터라고 가정
+      const file = new File([imageBlob], "image.png", { type: "image/png" }); // 파일 이름과 타입 설정
+
+      formData.append("image", file);
+      formData.append("password", pwRef.current.value);
+
       const response = await axios.patch(
-        "http://52.78.9.240/api/users/update",
-        myInfo
+        "http://localhost:8080/api/user/mypage",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
       );
       if (response.status === 200) {
         getMyInfo();

@@ -20,7 +20,18 @@ function Start() {
         <S.Divider />
       </S.DividerWrapper>
       <S.Main>
-        <S.ImagePlaceholder>유레카팅 서비스 소개 이미지</S.ImagePlaceholder>
+        <S.ImagePlaceholder>
+          <S.PromotionText>
+            <S.Heading>마음에 드는 모임을 찾아 가입하고,</S.Heading>
+            <S.SubHeading>
+              새로운 친구들과 함께 즐거운 시간을 보내세요!
+            </S.SubHeading>
+            <br></br>
+            <S.Description>
+              Uting은 여러분의 소중한 만남을 지원합니다.
+            </S.Description>
+          </S.PromotionText>
+        </S.ImagePlaceholder>
         <S.StartButton onClick={handleStart}>시작하기</S.StartButton>
         <S.LoginExplanation>
           이미 계정이 있나요? <S.LoginLink href="/login">로그인</S.LoginLink>

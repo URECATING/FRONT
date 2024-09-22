@@ -67,7 +67,6 @@ export const Main = styled.main`
 
 export const ImagePlaceholder = styled.div`
   flex-shrink: 0;
-  background-color: #eee;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,9 +74,35 @@ export const ImagePlaceholder = styled.div`
   margin-bottom: 56px;
   font-size: 18px;
   color: #555;
-  width: 26%;
+  width: 55%;
   aspect-ratio: 1728 / 1117;
   object-fit: cover;
+`;
+
+export const PromotionText = styled.div`
+  text-align: center;
+  padding: 20px;
+  color: #555;
+`;
+
+export const Heading = styled.h2`
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #a50034;
+`;
+
+export const SubHeading = styled.h3`
+  font-size: 20px;
+  font-weight: normal;
+  margin: 8px 0;
+  color: #737373;
+`;
+
+export const Description = styled.p`
+  font-size: 15px;
+  margin: 10px 0;
+  color: #737373;
 `;
 
 export const StartButton = styled.button`
@@ -133,13 +158,3 @@ export const LoginLink = styled.a`
     text-decoration: underline;
   }
 `;
-
-// const Footer = styled.footer`
-//   width: 100%;
-//   height: 204px;
-//   flex-shrink: 0;
-//   background: #555;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
