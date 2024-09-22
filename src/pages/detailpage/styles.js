@@ -251,6 +251,7 @@ export const CommentSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 50px;
 `;
 
 export const CommentTitle = styled.div`
@@ -292,5 +293,7 @@ export const CommentButton = styled.button`
 
 export const Comment = styled.div`
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 18px;
 `;
+
+52.78.9.240:8080/post/{parent_id}/comments/reply

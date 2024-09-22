@@ -53,6 +53,16 @@ const App = () => {
   const [kakaoLoaded, setKakaoLoaded] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [isLike, setIsLike] = useState(false);
+  const [detailInfo, setDetailInfo] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
+  /* 카테고리 관련 코드 */
+  const [activeCategory, setActiveCategory] = useState("식사");
+  const categories = ["식사", "스터디", "게임", "운동", "번개"];
+
+  const navigate = useNavigate();
+  const postId = useParams().detailId;
 
   useEffect(() => {
     const loadKakaoMapScript = () => {
@@ -68,14 +78,54 @@ const App = () => {
     getDetailInfo();
     getLikeInfo();
     getJoinInfo();
+    fetchComments();
   }, []);
 
-  /* 카테고리 관련 코드 */
-  const [activeCategory, setActiveCategory] = useState("식사");
-  const categories = ["식사", "스터디", "게임", "운동", "번개"];
+  const fetchComments = async () => {
+    try {
+      const res = await axios.get(
+        `http://52.78.9.240:8080/post/${postId}/comments`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.status === 200) {
+        setComments(res.data.data); // 댓글 상태 업데이트
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value); // 입력 필드의 값 업데이트
+  };
+
+  const handleCommentSubmit = async () => {
+    if (!newComment.trim()) return; // 빈 댓글 제출 방지
+
+    try {
+      const res = await axios.post(
+        `http://52.78.9.240:8080/post/${postId}/comments`,
+        { content: newComment }, // 댓글 내용
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.status === 200) {
+        setNewComment(""); // 입력 필드 초기화
+        fetchComments(); // 댓글 목록 새로고침
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   /* 마이페이지로 이동 */
-  const navigate = useNavigate();
   const navigateToMyPage = () => {
     navigate("/mypage");
   };
@@ -99,8 +149,6 @@ const App = () => {
       setIsLike(true);
     }
   };
-
-  const postId = useParams().detailId;
 
   const getLikeInfo = async () => {
     try {
@@ -138,7 +186,6 @@ const App = () => {
     }
   };
 
-  const [detailInfo, setDetailInfo] = useState(null);
   const getDetailInfo = async () => {
     try {
       const res = await axios.get(`http://52.78.9.240:8080/board/${postId}`, {
@@ -358,14 +405,22 @@ const App = () => {
             <S.TitleDivider />
           </S.DividerWrapper>
           <S.CommentSection>
-            <S.CommentTitle>댓글 1</S.CommentTitle>
+            <S.CommentTitle>댓글 {comments.length}</S.CommentTitle>
             <S.CommentInputWrapper>
-              <S.CommentInput placeholder="댓글 작성..." />
-              <S.CommentButton>작성</S.CommentButton>
+              <S.CommentInput
+                value={newComment}
+                onChange={handleCommentChange}
+                placeholder="댓글 작성..."
+              />
+              <S.CommentButton onClick={handleCommentSubmit}>
+                작성
+              </S.CommentButton>
             </S.CommentInputWrapper>
-            <S.Comment>
-              망스터리야 뭐 애매하네... 난 망스터리 좋던데...
-            </S.Comment>
+            {comments.map((comment) => (
+              <S.Comment key={comment.id}>
+                <strong>{comment.username}</strong>: {comment.content}
+              </S.Comment>
+            ))}
           </S.CommentSection>
         </S.DetailContainer>
       )}
