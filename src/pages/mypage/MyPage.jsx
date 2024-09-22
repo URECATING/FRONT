@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -10,9 +10,12 @@ function MyPage() {
   const pwRef = useRef(null);
   const [myInfo, setMyInfo] = useState(null);
   const [joinedPosts, setJoinedPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
+  const [likePosts, setLikePosts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [participationCounts, setParticipationCounts] = useState({});
   const [postDetails, setPostDetails] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState("가입 팅!");
   const postsPerPage = 3;
 
   const handleMainPage = () => {
@@ -75,9 +78,8 @@ function MyPage() {
               },
             }
           );
-          console.log(res);
+
           if (res.status === 200) {
-            console.log(res.data.data);
             fetchParticipationCounts(postId);
           }
           return { postId, data: res.data.data }; // { postId, data } 형태로 반환
@@ -124,6 +126,40 @@ function MyPage() {
     }
   };
 
+  const getUserPosts = async () => {
+    try {
+      const res = await axios.get("http://52.78.9.240:8080/board/userPost", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      console.log("내가 작성한 게시글");
+      console.log(res.data.data);
+      if (res.status === 200) {
+        setUserPosts(res.data.data);
+        fetchPostDetails(res.data.data.map((post) => post.postId));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getLikePosts = async () => {
+    try {
+      const res = await axios.get("http://52.78.9.240:8080/user/likes", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      if (res.status === 200) {
+        setLikePosts(res.data.data);
+        fetchPostDetails(res.data.data.map((post) => post.postId));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getMyInfo();
     getJoinedPosts();
@@ -154,10 +190,32 @@ function MyPage() {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  const currentPosts = joinedPosts.slice(
-    currentIndex * postsPerPage,
-    (currentIndex + 1) * postsPerPage
-  );
+  // const currentPosts = joinedPosts.slice(
+  //   currentIndex * postsPerPage,
+  //   (currentIndex + 1) * postsPerPage
+  // );
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setCurrentIndex(0);
+
+    if (category === "모집 팅!") {
+      getUserPosts();
+    } else if (category === "스크랩 팅!") {
+      getLikePosts();
+    } else {
+      setUserPosts([]);
+      setPostDetails({});
+      fetchPostDetails(joinedPosts.map((post) => post.postId));
+    }
+  };
+
+  const currentPosts =
+    selectedCategory === "가입 팅!"
+      ? joinedPosts
+      : selectedCategory === "스크랩 팅!"
+      ? likePosts
+      : userPosts;
 
   return (
     <>
@@ -196,93 +254,114 @@ function MyPage() {
         <S.DividerWrapper>
           <S.TitleDivider />
         </S.DividerWrapper>
+        {/* 카테고리 석택 목록 */}
+        <S.CategoryContainer>
+          <S.CategoryButton
+            onClick={() => handleCategoryChange("가입 팅!")}
+            isActive={selectedCategory === "가입 팅!"}
+          >
+            가입 팅!
+          </S.CategoryButton>
+          <S.CategoryButton
+            onClick={() => handleCategoryChange("모집 팅!")}
+            isActive={selectedCategory === "모집 팅!"}
+          >
+            모집 팅!
+          </S.CategoryButton>
+          <S.CategoryButton
+            onClick={() => handleCategoryChange("스크랩 팅!")}
+            isActive={selectedCategory === "스크랩 팅!"}
+          >
+            스크랩 팅!
+          </S.CategoryButton>
+        </S.CategoryContainer>
 
         {/* 내가 가입한 게시글 목록 */}
         <S.PostContainer>
-          {currentPosts.map((post) => (
-            <S.Post key={post.postId}>
-              {postDetails[post.postId] && (
-                <>
-                  <S.ImageWrapper
-                    onClick={() => navigateToDetailPage(post.postId)}
-                  >
-                    <S.Category>{postDetails[post.postId].category}</S.Category>
-                    <S.Image
-                      src={postDetails[post.postId].image}
-                      alt={postDetails[post.postId].title}
-                    />
-                    <S.Title>{postDetails[post.postId].title}</S.Title>
-                  </S.ImageWrapper>
-                  <S.ContentWrapper>
-                    <S.Content>
-                      <S.PostProfileImageContainer
-                        onClick={() =>
-                          navigateToLeaderMyPage(
-                            postDetails[post.postId].userId
-                          )
-                        }
-                      >
-                        <S.PostProfileImage
-                          src={postDetails[post.postId].userImage}
-                          alt={postDetails[post.postId].username}
-                        />
-                      </S.PostProfileImageContainer>
-                      <S.GroupLeaderInfo
-                        onClick={() =>
-                          navigateToLeaderMyPage(
-                            postDetails[post.postId].userId
-                          )
-                        }
-                      >
-                        <S.Creator>
-                          {postDetails[post.postId].username}
-                        </S.Creator>
-                        <S.CreatorGroup>
-                          {postDetails[post.postId].team}
-                        </S.CreatorGroup>
-                      </S.GroupLeaderInfo>
-                      <S.GroupInfo>
-                        <S.DateWrapper>
-                          <S.Calendar
-                            src="/src/assets/Calendar.png"
-                            alt="Calendar Logo"
+          {currentPosts
+            .slice(
+              currentIndex * postsPerPage,
+              (currentIndex + 1) * postsPerPage
+            )
+            .map((post) => (
+              <S.Post key={post.postId}>
+                {postDetails[post.postId] && (
+                  <>
+                    <S.ImageWrapper
+                      onClick={() => navigateToDetailPage(post.postId)}
+                    >
+                      <S.Category>
+                        {postDetails[post.postId].category}
+                      </S.Category>
+                      <S.Image
+                        src={postDetails[post.postId].image}
+                        alt={postDetails[post.postId].title}
+                      />
+                      <S.Title>{postDetails[post.postId].title}</S.Title>
+                    </S.ImageWrapper>
+                    <S.ContentWrapper>
+                      <S.Content>
+                        <S.PostProfileImageContainer
+                          onClick={() =>
+                            navigateToLeaderMyPage(
+                              postDetails[post.postId].userId
+                            )
+                          }
+                        >
+                          <S.PostProfileImage
+                            src={postDetails[post.postId].userImage}
+                            alt={postDetails[post.postId].username}
                           />
-                          <S.Date>
-                            {dayjs(
-                              new Date(postDetails[post.postId].createdAt)
-                            ).format("MM/DD HH:mm")}
-                          </S.Date>
-                        </S.DateWrapper>
-                        <S.ParticipationWrapper>
-                          <S.ParticipationIcon
-                            src="/src/assets/participation.png"
-                            alt="participation Logo"
-                          />
-                          <S.ParticipationNumber>
-                            {participationCounts[post.postId] || 0}
-                            /{postDetails[post.postId].maxCapacity}명 참여
-                          </S.ParticipationNumber>
-                        </S.ParticipationWrapper>
-                      </S.GroupInfo>
-                    </S.Content>
-                  </S.ContentWrapper>
-                </>
-              )}
-            </S.Post>
-          ))}
+                        </S.PostProfileImageContainer>
+                        <S.GroupLeaderInfo
+                          onClick={() =>
+                            navigateToLeaderMyPage(
+                              postDetails[post.postId].userId
+                            )
+                          }
+                        >
+                          <S.Creator>
+                            {postDetails[post.postId].username}
+                          </S.Creator>
+                          <S.CreatorGroup>
+                            {postDetails[post.postId].team}
+                          </S.CreatorGroup>
+                        </S.GroupLeaderInfo>
+                        <S.GroupInfo>
+                          <S.DateWrapper>
+                            <S.Calendar
+                              src="/src/assets/Calendar.png"
+                              alt="Calendar Logo"
+                            />
+                            <S.Date>
+                              {dayjs(
+                                new Date(postDetails[post.postId].createdAt)
+                              ).format("MM/DD HH:mm")}
+                            </S.Date>
+                          </S.DateWrapper>
+                          <S.ParticipationWrapper>
+                            <S.ParticipationIcon
+                              src="/src/assets/participation.png"
+                              alt="participation Logo"
+                            />
+                            <S.ParticipationNumber>
+                              {participationCounts[post.postId] || 0}/
+                              {postDetails[post.postId].maxCapacity}명 참여
+                            </S.ParticipationNumber>
+                          </S.ParticipationWrapper>
+                        </S.GroupInfo>
+                      </S.Content>
+                    </S.ContentWrapper>
+                  </>
+                )}
+              </S.Post>
+            ))}
         </S.PostContainer>
 
         {/* 페이지네이션 버튼 */}
         <S.ButtonContainer>
-          <S.PageButton onClick={handlePrev} disabled={currentIndex === 0}>
-            이전
-          </S.PageButton>
-          <S.PageButton
-            onClick={handleNext}
-            disabled={(currentIndex + 1) * postsPerPage >= joinedPosts.length}
-          >
-            다음
-          </S.PageButton>
+          <S.PageButton onClick={handlePrev}>이전</S.PageButton>
+          <S.PageButton onClick={handleNext}>다음</S.PageButton>
         </S.ButtonContainer>
       </S.AppContainer>
     </>

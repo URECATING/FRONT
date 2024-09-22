@@ -134,6 +134,7 @@ const App = () => {
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
+    setCurrentIndex(0);
   };
 
   const handleParticipationNumberChange = (e) => {

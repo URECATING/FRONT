@@ -161,6 +161,27 @@ export const TitleDivider = styled.div`
   margin-bottom: 20px;
 `;
 
+export const CategoryContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 50px;
+`;
+
+export const CategoryButton = styled.span`
+  font-weight: ${(props) => (props.isActive ? "bold" : "normal")};
+  width: 200px;
+  height: 50px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 10px;
+`;
+
 export const PostContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
