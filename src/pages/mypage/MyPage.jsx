@@ -178,7 +178,7 @@ function MyPage() {
       formData.append("password", pwRef.current.value);
 
       const response = await axios.patch(
-        "http://localhost:8080/api/user/mypage",
+        "http://52.78.9.240:8080/api/user/mypage",
         formData,
         {
           headers: {
