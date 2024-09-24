@@ -216,7 +216,7 @@ export const InfoTitle = styled.div`
 
 export const InfoText = styled.p`
   font-size: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
   font-weight: 500;
 `;
 
@@ -295,4 +295,19 @@ export const CommentButton = styled.button`
 export const Comment = styled.div`
   margin-top: 10px;
   font-size: 18px;
+`;
+
+// styles.js 파일에 추가
+export const ParticipantImages = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+`;
+
+export const ParticipantImage = styled.img`
+  width: 50px; // 이미지 크기 조정
+  height: 50px;
+  border-radius: 50%; // 원형으로 만들기
+  margin-right: 5px; // 간격 조정
+  object-fit: cover;
 `;

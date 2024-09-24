@@ -57,6 +57,7 @@ const App = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [participationCounts, setParticipationCounts] = useState({});
+  const [participants, setParticipants] = useState([]);
 
   /* 카테고리 관련 코드 */
   const [activeCategory, setActiveCategory] = useState("식사");
@@ -199,7 +200,50 @@ const App = () => {
         setDetailInfo(res.data.data);
         checkIsJoined(res.data.code);
         fetchParticipationCounts(res.data.data.postId);
+        fetchParticipants(res.data.data.postId);
       }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchParticipants = async (postId) => {
+    try {
+      const res = await axios.get(
+        `http://52.78.9.240:8080/post-join/posts/${postId}/joins`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.status === 200) {
+        const participantIds = res.data.data.map(
+          (participant) => participant.userId
+        );
+        fetchParticipantsProfiles(participantIds);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchParticipantsProfiles = async (participantIds) => {
+    try {
+      const profiles = await Promise.all(
+        participantIds.map(async (participantId) => {
+          const res = await axios.get(
+            `http://52.78.9.240:8080/api/user/${participantId}/mypage`,
+            {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            }
+          );
+          return { userId: participantId, ...res.data.data };
+        })
+      );
+      setParticipants(profiles);
     } catch (e) {
       console.log(e);
     }
@@ -405,6 +449,17 @@ const App = () => {
                 {participationCounts[detailInfo.postId] || 0}/
                 {detailInfo.maxCapacity}
               </S.InfoText>
+              <S.ParticipantImages>
+                {participants.map((participant) => (
+                  <S.ParticipantImage
+                    key={participant.userId}
+                    src={participant.image}
+                    alt="Participant"
+                    onClick={() => navigateToLeaderMyPage(participant.userId)}
+                    style={{ cursor: "pointer" }}
+                  />
+                ))}
+              </S.ParticipantImages>
             </S.InfoWrapper>
           </S.InfoSection>
           {!isJoined ? (
