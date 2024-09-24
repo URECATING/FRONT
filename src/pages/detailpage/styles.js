@@ -175,7 +175,8 @@ export const TitleDivider = styled.div`
 
 export const ContentContainer = styled.div`
   width: 854px;
-  height: 400px;
+  min-height: 200px;
+  padding: 30px;
   flex-shrink: 0;
   border-radius: 30px;
   border: var(--sds-size-stroke-border) solid;

@@ -32,6 +32,7 @@ function MyPage() {
 
   const getMyInfo = async () => {
     console.log(localStorage.getItem("token"));
+    console.log("내 정보");
     console.log(myInfo);
     try {
       const res = await axios.get(`http://52.78.9.240:8080/api/user/mypage`, {
@@ -165,16 +166,30 @@ function MyPage() {
     getJoinedPosts();
   }, []);
 
+  const [postImage, setPostImage] = useState(myInfo?.image);
+
   const handleUpdate = async () => {
+    console.log("수정하기");
     console.log(myInfo);
     try {
       const formData = new FormData();
 
-      // 문자열을 Blob으로 변환
-      const imageBlob = new Blob([myInfo.image], { type: "image/png" }); // 문자열이 이미지 데이터라고 가정
-      const file = new File([imageBlob], "image.png", { type: "image/png" }); // 파일 이름과 타입 설정
+      if (postImage) {
+        const imageFile = await fetch(postImage).then((res) => res.blob());
+        formData.append("image", imageFile, "postImage.png");
+      } else {
+        formData.append("image", myInfo.image);
+      }
 
-      formData.append("image", file);
+      // if (postImage) {
+      //   // 문자열을 Blob으로 변환
+      //   const imageBlob = new Blob([myInfo.image], { type: "image/png" }); // 문자열이 이미지 데이터라고 가정
+      //   const file = new File([imageBlob], "image.png", { type: "image/png" }); // 파일 이름과 타입 설정
+      //   formData.append("image", file);
+      // } else {
+      //   formData.append("image", myInfo.image);
+      // }
+
       formData.append("password", pwRef.current.value);
 
       const response = await axios.patch(
@@ -193,6 +208,21 @@ function MyPage() {
       console.log("수정 완료:", response.data);
     } catch (error) {
       console.error("수정 실패:", error);
+    }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPostImage(reader.result.toString());
+      };
+      reader.readAsDataURL(file);
+      console.log("----------------------");
+      console.log(reader.result.toString());
+    } else {
+      setPostImage(null);
     }
   };
 
@@ -253,7 +283,18 @@ function MyPage() {
           <S.ProfileContainer>
             <S.ProfileImageContainer>
               <S.ProfileImage src={myInfo.image} />
-              <S.UploadButton>사진 업로드</S.UploadButton>
+              <S.UploadButton
+                onClick={() => document.getElementById("fileInput").click()}
+              >
+                사진 업로드
+              </S.UploadButton>
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleImageUpload}
+              />
             </S.ProfileImageContainer>
             <S.UserInfo>
               <S.UserName>{myInfo.userName}</S.UserName>
