@@ -16,7 +16,7 @@ export const Logo = styled.img`
   height: 32px;
   flex-shrink: 0;
   opacity: var(--sds-size-stroke-border);
-  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  background: lightgray 50% / cover no-repeat;
 `;
 
 export const TitleWrapper = styled.div`
@@ -88,7 +88,7 @@ export const Select = styled.select`
 `;
 
 export const SignupButton = styled.div`
-display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 355.714px;

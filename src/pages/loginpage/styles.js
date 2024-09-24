@@ -16,7 +16,7 @@ export const Logo = styled.img`
   height: 32px;
   flex-shrink: 0;
   opacity: var(--sds-size-stroke-border);
-  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  background: lightgray 50% / cover no-repeat;
 `;
 
 export const TitleWrapper = styled.div`
