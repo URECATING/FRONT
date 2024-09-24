@@ -56,6 +56,7 @@ const App = () => {
   const [detailInfo, setDetailInfo] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [participationCounts, setParticipationCounts] = useState({});
 
   /* 카테고리 관련 코드 */
   const [activeCategory, setActiveCategory] = useState("식사");
@@ -197,6 +198,28 @@ const App = () => {
       if (res.status === 200) {
         setDetailInfo(res.data.data);
         checkIsJoined(res.data.code);
+        fetchParticipationCounts(res.data.data.postId);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchParticipationCounts = async (postId) => {
+    try {
+      const res = await axios.get(
+        `http://52.78.9.240:8080/post-join/${postId}/join-count`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.status === 200) {
+        setParticipationCounts((prevCounts) => ({
+          ...prevCounts,
+          [postId]: res.data.data, // postId를 키로 하여 참가 인원수 저장
+        }));
       }
     } catch (e) {
       console.log(e);
@@ -378,7 +401,10 @@ const App = () => {
             </S.KakaoMapContainer>
             <S.InfoWrapper>
               <S.InfoTitle>모집인원</S.InfoTitle>
-              <S.InfoText>2/{detailInfo.maxCapacity}</S.InfoText>
+              <S.InfoText>
+                {participationCounts[detailInfo.postId] || 0}/
+                {detailInfo.maxCapacity}
+              </S.InfoText>
             </S.InfoWrapper>
           </S.InfoSection>
           {!isJoined ? (
