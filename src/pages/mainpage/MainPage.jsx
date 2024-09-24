@@ -188,10 +188,10 @@ const App = () => {
   return (
     <S.AppContainer>
       <S.Header>
-        <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
+        <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
       </S.Header>
       <S.TitleWrapper>
-        <S.UtingLogo src="/src/assets/UtingLogo.png" alt="UTing Logo" />
+        <S.UtingLogo src="/public/png/UtingLogo.png" alt="UTing Logo" />
       </S.TitleWrapper>
       <S.MenuWrapper>
         <S.CategoryContainer>
@@ -235,7 +235,7 @@ const App = () => {
                 <S.GroupInfo>
                   <S.DateWrapper>
                     <S.Calendar
-                      src="/src/assets/Calendar.png"
+                      src="/public/png/Calendar.png"
                       alt="Calendar Logo"
                     />
                     <S.Date>
@@ -244,7 +244,7 @@ const App = () => {
                   </S.DateWrapper>
                   <S.ParticipationWrapper>
                     <S.ParticipationIcon
-                      src="/src/assets/participation.png"
+                      src="/public/png/participation.png"
                       alt="participation Logo"
                     />
                     <S.ParticipationNumber>
@@ -325,7 +325,7 @@ const App = () => {
                 <S.DefaultPostImage src={postImage} />
                 <S.ImageUploadWrapper>
                   <S.FolderIcon
-                    src="/src/assets/folderIcon.png"
+                    src="/public/png/folderIcon.png"
                     alt="Folder Logo"
                   />
                   <S.ImageUploadButton

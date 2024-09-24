@@ -42,12 +42,12 @@ function MyPage() {
     <>
       <S.AppContainer>
         <S.Header>
-          <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
+          <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
         </S.Header>
         <S.TitleWrapper>
           <S.UtingLogo
             onClick={handleMainPage}
-            src="/src/assets/UtingLogo.png"
+            src="/public/png/UtingLogo.png"
             alt="UTing Logo"
           />
         </S.TitleWrapper>

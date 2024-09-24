@@ -237,12 +237,12 @@ function MyPage() {
     <>
       <S.AppContainer>
         <S.Header>
-          <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
+          <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
         </S.Header>
         <S.TitleWrapper>
           <S.UtingLogo
             onClick={handleMainPage}
-            src="/src/assets/UtingLogo.png"
+            src="/public/png/UtingLogo.png"
             alt="UTing Logo"
           />
         </S.TitleWrapper>
@@ -346,7 +346,7 @@ function MyPage() {
                         <S.GroupInfo>
                           <S.DateWrapper>
                             <S.Calendar
-                              src="/src/assets/Calendar.png"
+                              src="/public/png/Calendar.png"
                               alt="Calendar Logo"
                             />
                             <S.Date>
@@ -357,7 +357,7 @@ function MyPage() {
                           </S.DateWrapper>
                           <S.ParticipationWrapper>
                             <S.ParticipationIcon
-                              src="/src/assets/participation.png"
+                              src="/public/png/participation.png"
                               alt="participation Logo"
                             />
                             <S.ParticipationNumber>

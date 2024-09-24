@@ -33,10 +33,10 @@ function Login() {
   return (
     <S.AppContainer>
       <S.Header>
-        <S.Logo src="/src/assets/LGLogo.png" alt="LGU+ Logo" />
+        <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
       </S.Header>
       <S.TitleWrapper>
-        <S.UtingLogo src="/src/assets/UtingLogo.png" alt="UTing Logo" />
+        <S.UtingLogo src="/public/png/UtingLogo.png" alt="UTing Logo" />
       </S.TitleWrapper>
       <S.DividerWrapper>
         <S.Divider />
