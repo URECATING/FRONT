@@ -52,10 +52,10 @@ function Signup() {
   return (
     <S.AppContainer>
       <S.Header>
-        <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
+        <S.Logo src="/png/LGLogo.png" alt="LGU+ Logo" />
       </S.Header>
       <S.TitleWrapper>
-        <S.UtingLogo src="/public/png/UtingLogo.png" alt="UTing Logo" />
+        <S.UtingLogo src="/png/UtingLogo.png" alt="UTing Logo" />
       </S.TitleWrapper>
       <S.DividerWrapper>
         <S.Divider />

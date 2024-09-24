@@ -188,10 +188,10 @@ const App = () => {
   return (
     <S.AppContainer>
       <S.Header>
-        <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
+        <S.Logo src="/png/LGLogo.png" alt="LGU+ Logo" />
       </S.Header>
       <S.TitleWrapper>
-        <S.UtingLogo src="/public/png/UtingLogo.png" alt="UTing Logo" />
+        <S.UtingLogo src="/png/UtingLogo.png" alt="UTing Logo" />
       </S.TitleWrapper>
       <S.MenuWrapper>
         <S.CategoryContainer>
@@ -234,17 +234,14 @@ const App = () => {
                 </S.GroupLeaderInfo>
                 <S.GroupInfo>
                   <S.DateWrapper>
-                    <S.Calendar
-                      src="/public/png/Calendar.png"
-                      alt="Calendar Logo"
-                    />
+                    <S.Calendar src="/png/Calendar.png" alt="Calendar Logo" />
                     <S.Date>
                       {dayjs(new Date(post.createdAt)).format("MM/DD HH:mm")}
                     </S.Date>
                   </S.DateWrapper>
                   <S.ParticipationWrapper>
                     <S.ParticipationIcon
-                      src="/public/png/participation.png"
+                      src="/png/participation.png"
                       alt="participation Logo"
                     />
                     <S.ParticipationNumber>
@@ -324,10 +321,7 @@ const App = () => {
               <S.ProfileImageWrapper>
                 <S.DefaultPostImage src={postImage} />
                 <S.ImageUploadWrapper>
-                  <S.FolderIcon
-                    src="/public/png/folderIcon.png"
-                    alt="Folder Logo"
-                  />
+                  <S.FolderIcon src="/png/folderIcon.png" alt="Folder Logo" />
                   <S.ImageUploadButton
                     onClick={() => document.getElementById("fileInput").click()}
                   >

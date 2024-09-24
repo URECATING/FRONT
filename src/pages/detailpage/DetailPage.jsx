@@ -301,12 +301,12 @@ const App = () => {
   return (
     <S.AppContainer>
       <S.Header>
-        <S.Logo src="/public/png/LGLogo.png" alt="LGU+ Logo" />
+        <S.Logo src="/png/LGLogo.png" alt="LGU+ Logo" />
       </S.Header>
       <S.TitleWrapper>
         <S.UtingLogo
           onClick={handleMainPage}
-          src="/public/png/UtingLogo.png"
+          src="/png/UtingLogo.png"
           alt="UTing Logo"
         />
       </S.TitleWrapper>
@@ -334,13 +334,13 @@ const App = () => {
             {isLike ? (
               <S.HeartImage
                 onClick={handleLike}
-                src="/public/png/RedHeart.png"
+                src="/png/RedHeart.png"
                 alt="Heart"
               />
             ) : (
               <S.HeartImage
                 onClick={handleLike}
-                src="/public/png/Heart.png"
+                src="/png/Heart.png"
                 alt="Heart"
               />
             )}
