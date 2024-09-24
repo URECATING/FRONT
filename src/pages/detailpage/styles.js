@@ -295,5 +295,3 @@ export const Comment = styled.div`
   margin-top: 10px;
   font-size: 18px;
 `;
-
-52.78.9.240:8080/post/{parent_id}/comments/reply

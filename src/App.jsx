@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Routes } from "react-router-dom";
-import Start from "./pages/startpage/Start";
-import Signup from "./pages/signuppage/Signup";
-import Login from "./pages/loginpage/Login";
-import OtherUserPage from "./pages/otheruserpage/OtherUserPage";
-import MyPage from "./pages/mypage/MyPage";
-import MainPage from "./pages/mainpage/MainPage";
-import DetailPage from "./pages/detailpage/DetailPage";
+import Start from "@/pages/startpage/Start";
+import Signup from "@/pages/signuppage/Signup";
+import Login from "@/pages/loginpage/Login";
+import OtherUserPage from "@/pages/otheruserpage/OtherUserPage";
+import MyPage from "@/pages/mypage/MyPage";
+import MainPage from "@/pages/mainpage/MainPage";
+import DetailPage from "@/pages/detailpage/DetailPage";
 
 function App() {
   return (
