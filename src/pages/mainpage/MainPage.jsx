@@ -236,7 +236,7 @@ const App = () => {
                   <S.DateWrapper>
                     <S.Calendar src="/png/Calendar.png" alt="Calendar Logo" />
                     <S.Date>
-                      {dayjs(new Date(post.createdAt)).format("MM/DD HH:mm")}
+                      {dayjs(new Date(post.meetingDate)).format("MM/DD HH:mm")}
                     </S.Date>
                   </S.DateWrapper>
                   <S.ParticipationWrapper>

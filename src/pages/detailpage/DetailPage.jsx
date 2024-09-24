@@ -426,7 +426,6 @@ const App = () => {
               유레카팅 참가취소
             </S.Button>
           )}
-          ;
           <S.DividerWrapper>
             <S.TitleDivider />
           </S.DividerWrapper>
