@@ -3,11 +3,7 @@
     "module": "commonjs",
     "target": "es6",
     "jsx": "react-jsx",
-    "checkJs": true,
-    "baseUrl": "./", //"."
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "checkJs": true
   },
   "exclude": ["node_modules"]
 }
